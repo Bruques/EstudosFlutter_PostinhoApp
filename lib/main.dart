@@ -22,6 +22,7 @@ class PostinhoApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
 
 String name;
+TextEditingController nameController = TextEditingController();
 HomePage(this.name);
 
   @override
@@ -34,18 +35,45 @@ HomePage(this.name);
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Ola, ${name}",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            TextField(
+              controller: nameController,
             ),
-            SizedBox(height: 24),
-            Text("Clique no botão para agendar uma consulta."),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () {
-                print("Consulta agendada!");
-              },
-              child: Text("Agendar uma consulta"),
+            ElevatedButton(onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ConsultaPage(nomePaciente: nameController.text)),
+              );
+            }, 
+            child: Text("Ver consultas!")
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ConsultaPage extends StatelessWidget {
+
+  String nomePaciente;
+
+  ConsultaPage({required this.nomePaciente});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Consultas")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Consultas de ${nomePaciente}"),
+            Text("Consultas agendadas"),
+            ElevatedButton(onPressed: () {
+              Navigator.pop(context);
+            }, 
+            child: 
+              Text("Voltar")
             )
           ],
         ),
