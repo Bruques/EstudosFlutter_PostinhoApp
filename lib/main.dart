@@ -62,21 +62,35 @@ class ConsultaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Consultas")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Consultas de ${nomePaciente}"),
-            Text("Consultas agendadas"),
-            ElevatedButton(onPressed: () {
-              Navigator.pop(context);
-            }, 
-            child: 
-              Text("Voltar")
-            )
-          ],
-        ),
+      appBar: AppBar(
+        title: Text("Consultas"),
+        backgroundColor: Colors.green,
+      ),
+      body: ListView(
+        children: [
+          ConsultaCard("Dra. Ana Paula"),
+          ConsultaCard("Dr. Marcos Aurélio")
+        ],
+      ),
+    );
+  }
+}
+
+class ConsultaCard extends StatelessWidget {
+  String doctorName;
+
+  ConsultaCard(this.doctorName);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.all(16),
+      child: ListTile(
+        leading: Icon(Icons.medical_services),
+        title: Text(doctorName),
+        subtitle: Text("30/05/2025 as 09:00"),
+        trailing: Icon(Icons.arrow_forward_ios),
       ),
     );
   }
