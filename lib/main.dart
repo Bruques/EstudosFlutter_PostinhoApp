@@ -1,7 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:postinho_app/semana2_aula1.dart';
+import 'package:postinho_app/semana2_aula4.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
-  runApp(const PostinhoApp());
+  // runApp(const PostinhoApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ContadorModel(),
+      child: MyFormApp(),
+    ),
+  );
+}
+
+class MeuApp extends StatelessWidget {
+  const MeuApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final contador = context.watch<ContadorModel>();
+
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Contador: ${contador.valor}"),
+        ElevatedButton(
+          onPressed: () => context.read<ContadorModel>().incrementar(),
+          child: Text("Teste"),
+        ),
+      ],
+    ),
+      )
+    );
+  }
 }
 
 class PostinhoApp extends StatelessWidget {
@@ -14,7 +48,9 @@ class PostinhoApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
-      home: HomePage("Bruno"),
+      home: MeuApp(),
+      // home: HomePage("Bruno"),
+      // home: ContadorWidget(),
     );
   }
 }
@@ -93,5 +129,16 @@ class ConsultaCard extends StatelessWidget {
         trailing: Icon(Icons.arrow_forward_ios),
       ),
     );
+  }
+}
+
+class ContadorModel with ChangeNotifier {
+  int _valor = 0;
+
+  int get valor => _valor;
+
+  void incrementar() {
+    _valor++;
+    notifyListeners();
   }
 }
